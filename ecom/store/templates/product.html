@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<!-- Header-->
+
+<div class="container"><br>
+    <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="capa do livro">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+                <center>
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <br>
+                    <p class="card-text" align="justify">{{product.descripition}}.</p>
+                     <!-- Product price-->
+                     {% if product.sale_price != 0%}
+                     <strike> R$ {{product.price}} </strike>&nbsp;
+                     <span>R$ {{product.sale_price}}</span>
+                     {% else %}
+                     <span>R$ {{product.price}}</span>
+                     {% endif %}
+
+                    
+                    <br>
+                    <a href="{% url 'home' %}" class="btn btn-secondary"> Voltar</a>
+                </center>
+              
+            </div>
+          </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

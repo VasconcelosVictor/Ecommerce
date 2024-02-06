@@ -6,30 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-
+from .decorator import *
 from .forms import *
 
-
-
-def home(request):
-    context_dict = {}
-    produts = Product.objects.all()
-    context_dict['products'] = produts
-
-    paginator = Paginator(produts, 50)
-    page_num = request.POST.get('page', 1)
-    objs = paginator.page(page_num)
-
-    context_dict['page_obj'] = objs
-    
-
-    return render(request, "home.html", context_dict)
-
-
-def about(request):
-    context_dict = {}
-    
-    return render(request, "about.html", context_dict)
 
 def login_user(request):
     context_dict = {}
@@ -86,3 +65,45 @@ def register_user(request):
     context_dict['form'] = form 
 
     return render(request, "register.html", context_dict)
+
+
+# **** Autenticação ****
+
+@decorator_base
+def home(request, context_dict):
+    produts = Product.objects.all()
+    context_dict['products'] = produts
+
+    paginator = Paginator(produts, 50)
+    page_num = request.POST.get('page', 1)
+    objs = paginator.page(page_num)
+
+    context_dict['page_obj'] = objs
+    
+
+    return render(request, "home.html", context_dict)
+
+@decorator_base
+def about(request, context_dict):
+    
+    return render(request, "about.html", context_dict)
+
+@decorator_base
+def product(request, context_dict, pk):
+    product = Product.objects.get(id=pk)
+    context_dict['product']= product
+    
+    return render(request,"product.html", context_dict )
+@decorator_base
+def category(request, context_dict, pk):
+
+    category = Category.objects.get(id=pk)
+    if category:
+        products = Product.objects.filter(category=category)
+        context_dict['products'] = products
+    else:
+        messages.error(request, ("Opa parece que essá categoria não está mais disponível !!"))
+        redirect("home")    
+    context_dict['category'] = category
+
+    return render(request, "category.html", context_dict)
