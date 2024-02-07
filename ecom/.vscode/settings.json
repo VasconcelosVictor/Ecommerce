@@ -1,0 +1,13 @@
+{
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.rulers": [120],
+    "workbench.startupEditor":"newUntitledFile",
+    "editor.renderLineHighlight": "gutter",
+    "workbench.editor.labelFormat": "short",
+    "explorer.compactFolders": false,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.formatOnSave": true
+      }
+
+}

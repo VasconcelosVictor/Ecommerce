@@ -5,36 +5,62 @@
 <!-- Header-->
 
 <div class="container"><br>
-    <div class="card mb-3">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="capa do livro">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-                <center>
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <br>
-                    <p class="card-text" align="justify">{{product.descripition}}.</p>
-                     <!-- Product price-->
-                     {% if product.sale_price != 0%}
-                     <strike> R$ {{product.price}} </strike>&nbsp;
-                     <span>R$ {{product.sale_price}}</span>
-                     {% else %}
-                     <span>R$ {{product.price}}</span>
-                     {% endif %}
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="capa do livro">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <center>
+            <h5 class="card-title">{{ product.name }}</h5>
+            <br>
+            <p class="card-text" align="justify">{{product.descripition}}.</p>
+            <!-- Product price-->
+            {% if product.sale_price != 0%}
+            <strike> R$ {{product.price}} </strike>&nbsp;
+            <span>R$ {{product.sale_price}}</span>
+            {% else %}
+            <span>R$ {{product.price}}</span>
+            {% endif %}
 
-                    
-                    <br>
-                    <a href="{% url 'home' %}" class="btn btn-secondary"> Voltar</a>
-                </center>
-              
-            </div>
-          </div>
+            <br>
+
+            <br>
+            <a href="{% url 'home' %}" class="btn btn-secondary"> Voltar</a>
+            <br><br>
+
+            <button id="add-cart"  type="button" value="{{ product.id }}" class="btn btn-secondary"> Adicionar ao Carrinho</button>
+          </center>
+
         </div>
+      </div>
     </div>
+  </div>
 
 </div>
+
+<script>
+  // Chega se o botão foi apertado 
+  $("#add-cart").on('click', function(){
+    $.ajax({
+      type: 'POST',
+      url : "{% url 'cart-add' %}",
+      data:{
+        product_id: $(this).val(),
+        csrfmiddlewaretoken:'{{ csrf_token }}',
+        action: "post",
+      },
+      success:function(data){
+        console.log(data)
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  });
+
+</script>
 
 
 
