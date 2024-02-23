@@ -19,7 +19,11 @@ def cart_add(request):
 
         # Salve no dicionario cart a sessao de produtos selecionados
         cart.add(product=product)
-        reponse = JsonResponse({'product name': product.name})
+
+        # Quantidade de itens no carrinho
+        cart_quantity = cart.__len__()
+
+        reponse = JsonResponse({'quantity': cart_quantity})
         return reponse
 
 

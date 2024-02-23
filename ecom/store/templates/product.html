@@ -30,7 +30,8 @@
             <a href="{% url 'home' %}" class="btn btn-secondary"> Voltar</a>
             <br><br>
 
-            <button id="add-cart"  type="button" value="{{ product.id }}" class="btn btn-secondary"> Adicionar ao Carrinho</button>
+            <button id="add-cart" type="button" value="{{ product.id }}" class="btn btn-secondary"> Adicionar ao
+              Carrinho</button>
           </center>
 
         </div>
@@ -42,19 +43,21 @@
 
 <script>
   // Chega se o botão foi apertado 
-  $("#add-cart").on('click', function(){
+  $("#add-cart").on('click', function (e) {
+    e.preventDefault();
     $.ajax({
       type: 'POST',
-      url : "{% url 'cart-add' %}",
-      data:{
+      url: "{% url 'cart-add' %}",
+      data: {
         product_id: $(this).val(),
-        csrfmiddlewaretoken:'{{ csrf_token }}',
+        csrfmiddlewaretoken: '{{ csrf_token }}',
         action: "post",
       },
-      success:function(data){
+      success: function (data) {
         console.log(data)
+        document.getElementById("cart-quantity").textContent = data.quantity;
       },
-      error: function(xhr, errmsg, err){
+      error: function (xhr, errmsg, err) {
 
       }
     });

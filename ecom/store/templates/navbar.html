@@ -38,7 +38,9 @@
                 <a href="{% url 'cart-summary' %}" class="btn btn-outline-dark">
                     <i class="bi-cart-fill me-1"></i>
                     Suas Compras
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span id="cart-quantity" class="badge bg-dark text-white ms-1 rounded-pill">
+                        {{cart | length  }}
+                    </span>
                 </a>
             </form>
         </div>
