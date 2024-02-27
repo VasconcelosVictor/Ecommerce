@@ -1,12 +1,21 @@
 from django.shortcuts import render, get_object_or_404
+
+from store.decorator import decorator_base
 from .cart import Cart
 from store.models import *
 from django.http import JsonResponse
 
 
-def cart_summary(request):
-
-    return render(request, "cart_summary.html", context={})
+@decorator_base
+def cart_summary(request ,context_dict):
+    #
+    cart = Cart(request)
+    cart_products = cart.get_prods()
+    quantities = cart.get_quantis()
+    context_dict['cart_products'] = cart_products
+    context_dict['cart_quantities'] = quantities
+    
+    return render(request, "cart_summary.html", context_dict)
 
 
 def cart_add(request):
@@ -14,11 +23,12 @@ def cart_add(request):
     # se POST
     if request.POST.get('action') == 'post':
         product_id = int(request.POST.get('product_id'))
+        product_qty = int(request.POST.get('product_qty'))
 
         product = get_object_or_404(Product, id=product_id)
 
         # Salve no dicionario cart a sessao de produtos selecionados
-        cart.add(product=product)
+        cart.add(product=product, quantity=product_qty)
 
         # Quantidade de itens no carrinho
         cart_quantity = cart.__len__()
