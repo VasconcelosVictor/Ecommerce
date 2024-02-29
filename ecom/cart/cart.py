@@ -40,3 +40,16 @@ class Cart():
     def get_quantis(self):
         quantities = self.cart
         return quantities
+    
+    def update(self,product, quantity):
+        # relembrando o carrinho na sessao é {"id": quantidade} str e int
+        product_id = str(product)
+        product_quantity = int(quantity)
+        ourcart = self.cart
+
+        #Atualiza o Dicionario do Carrinho
+        ourcart[product_id] = product_quantity
+        self.session.modfied = True
+        cart_updated = self.cart
+        return cart_updated
+

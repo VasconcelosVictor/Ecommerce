@@ -7,14 +7,14 @@ from django.http import JsonResponse
 
 
 @decorator_base
-def cart_summary(request ,context_dict):
+def cart_summary(request, context_dict):
     #
     cart = Cart(request)
     cart_products = cart.get_prods()
     quantities = cart.get_quantis()
     context_dict['cart_products'] = cart_products
     context_dict['cart_quantities'] = quantities
-    
+
     return render(request, "cart_summary.html", context_dict)
 
 
@@ -38,8 +38,16 @@ def cart_add(request):
 
 
 def cart_update(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        product_id = int(request.POST.get('product_id'))
+        product_qty = int(request.POST.get('product_qty'))
 
-    return render(request, "", context={})
+        cart.update(product=product_id, quantity=product_qty)
+
+        reponse = JsonResponse({'quantity': product_qty})
+
+        return reponse
 
 
 def cart_delete(request):

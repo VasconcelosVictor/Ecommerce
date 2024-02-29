@@ -37,17 +37,16 @@
                         <div class="row justify-content-center">
                             <div class="col-md-2">Quantidade:</div>
                             <div class="col-md-2">
-                                <select class="form-select form-select-sm" 
-                                    id="quantity-cart"
-                                    aria-label="Default select example">
-                                    
-                                        {% for key, value in cart_quantities.items %}
-                                            {% if key == product.id|slugify %}
-                                        <option selected> {{ value }} </option>    
+                                <select class="form-select form-select-sm" aria-label="Default select example"
+                                    id="select{{ product.id }}">
 
-                                            {% endif %}
-                                        {% endfor %}
-                                    
+                                    {% for key, value in cart_quantities.items %}
+                                    {% if key == product.id|slugify %}
+                                    <option selected> {{ value }} </option>
+
+                                    {% endif %}
+                                    {% endfor %}
+
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -59,14 +58,10 @@
 
 
                         </div>
-
-
-
-                        <br>
-
-                        <br>
-                        <a href="{% url 'home' %}" class="btn btn-secondary"> Voltar</a>
                         <br><br>
+                        <a href="{% url 'home' %}" class="btn btn-secondary"> Voltar</a>
+                        <button type="button" data-index="{{ product.id }}"
+                            class="btn btn-secondary update-cart">Atualizar</button>
 
                     </center>
 
@@ -80,5 +75,30 @@
     {% endif %}
 </div>
 <br><br><br><br><br>
+
+
+<script>
+    $(".update-cart").on('click', function (e) {
+        e.preventDefault()
+        var productid = $(this).data('index'); // Pega o id do produto
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'cart-update' %}",
+            data: {
+                product_id: $(this).data('index'),
+                product_qty: $('#select' + productid + ' option:selected').text(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: "post",
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (xhr, errmsg, err) {
+
+
+            }
+        });
+    });
+</script>
 
 {% endblock %}
