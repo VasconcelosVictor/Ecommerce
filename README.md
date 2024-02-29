@@ -5,8 +5,11 @@ Django Livraria  :notebook_with_decorative_cover: :notebook_with_decorative_cove
 ## Instalação  :floppy_disk: :floppy_disk:
 
 *1- Clone o repositório*
-*2- Entre dentro da pasta do projeto e crie seu ambiente virtual python e o ative* 
+
+*2- Entre dentro da pasta do projeto e crie seu ambiente virtual python e o ative*
+ 
 *3- Instale as dependencias do projeto*
+
 
 -> `git clone https://github.com/VasconcelosVictor/Ecommerce.git`
 
