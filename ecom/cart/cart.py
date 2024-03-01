@@ -53,3 +53,15 @@ class Cart():
         cart_updated = self.cart
         return cart_updated
 
+    def delete(self, product):
+
+        product_id = str(product)
+        # Remover do dicionario 
+        if product_id in self.cart:
+            del self.cart[product_id]
+
+        self.session.modified = True
+        
+            
+
+

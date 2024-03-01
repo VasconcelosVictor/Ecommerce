@@ -49,7 +49,15 @@ def cart_update(request):
 
         return reponse
 
+# Remove um produto do carrinho
+
 
 def cart_delete(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        product_id = int(request.POST.get('product_id'))
+        # Chama função remover item do carrinho
+        cart.delete(product=product_id)
 
-    return render(request, "", context={})
+        reponse = JsonResponse({"product": product_id})
+        return reponse
