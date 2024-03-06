@@ -60,12 +60,13 @@
                         </div>
                         <br><br>
                         <a href="{% url 'home' %}" class="btn btn-secondary"> Voltar</a>
-                        <button type="button" data-index="{{ product.id }}"class="btn btn-secondary update-cart">
+                        <button type="button" data-index="{{ product.id }}" class="btn btn-secondary update-cart">
                             Atualizar
                         </button>
-                        <button type="button" data-index="{{ product.id }}"class="btn btn-danger delete-product">
+                        <button type="button" data-index="{{ product.id }}" class="btn btn-danger delete-product">
                             Remover
                         </button>
+                        <br><br>
 
 
                     </center>
@@ -75,6 +76,9 @@
         </div>
     </div>
     {% endfor%}
+
+    <h3>Total:R$ {{total}} </h3>
+    <br><br><br>
     {% else%}
     Carrinho Vazio ...
     {% endif %}
@@ -97,6 +101,7 @@
                 action: "post",
             },
             success: function (data) {
+                console.log(data)
                 location.reload();
             },
             error: function (xhr, errmsg, err) {

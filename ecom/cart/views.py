@@ -12,8 +12,10 @@ def cart_summary(request, context_dict):
     cart = Cart(request)
     cart_products = cart.get_prods()
     quantities = cart.get_quantis()
+    total = cart.total()
     context_dict['cart_products'] = cart_products
     context_dict['cart_quantities'] = quantities
+    context_dict['total'] = total
 
     return render(request, "cart_summary.html", context_dict)
 
