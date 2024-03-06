@@ -73,6 +73,7 @@
       success: function (data) {
         console.log(data)
         document.getElementById("cart-quantity").textContent = data.quantity;
+        location.reload();
       },
       error: function (xhr, errmsg, err) {
 

@@ -94,6 +94,7 @@ def product(request, context_dict, pk):
     context_dict['product']= product
     
     return render(request,"product.html", context_dict )
+
 @decorator_base
 def category(request, context_dict, pk):
 
@@ -107,3 +108,12 @@ def category(request, context_dict, pk):
     context_dict['category'] = category
 
     return render(request, "category.html", context_dict)
+
+@decorator_base
+def category_summary(request, context_dict):
+    categories = Category.objects.all()
+
+
+    context_dict['categories'] = categories
+
+    return render(request, "category_summary.html", context_dict)

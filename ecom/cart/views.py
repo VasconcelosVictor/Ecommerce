@@ -4,6 +4,7 @@ from store.decorator import decorator_base
 from .cart import Cart
 from store.models import *
 from django.http import JsonResponse
+from django.contrib import messages
 
 
 @decorator_base
@@ -36,6 +37,7 @@ def cart_add(request):
         cart_quantity = cart.__len__()
 
         reponse = JsonResponse({'quantity': cart_quantity})
+        messages.success(request, ("Produto Adicionando ao carrinho"))
         return reponse
 
 
@@ -48,7 +50,7 @@ def cart_update(request):
         cart.update(product=product_id, quantity=product_qty)
 
         reponse = JsonResponse({'quantity': product_qty})
-
+        messages.success(request, ("Carrinho Atualizado com Sucesso"))
         return reponse
 
 # Remove um produto do carrinho
@@ -62,4 +64,5 @@ def cart_delete(request):
         cart.delete(product=product_id)
 
         reponse = JsonResponse({"product": product_id})
+        messages.success(request, ("Item removido do carrinho!"))
         return reponse
