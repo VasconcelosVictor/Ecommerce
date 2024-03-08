@@ -67,6 +67,29 @@ def register_user(request):
     return render(request, "register.html", context_dict)
 
 
+def update_user(request):
+    context_dict = {}
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        user_form = UpdateUserForm(request.POST or None , instance=current_user)
+        context_dict['user_form'] = user_form
+        if user_form.is_valid():
+            user_form.save()
+            login(request, current_user)
+            messages.success(request,"Usuário Atualizando com Sucesso.")
+            return redirect("home")
+            
+        return render(request, "update_user.html", context_dict)
+    else:
+        messages.error(request, "Você precisa está logado pra acessar essa página")
+        return redirect("home")
+    
+    
+
+
+
+
+
 # **** Autenticação ****
 
 @decorator_base
