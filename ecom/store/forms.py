@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
 
 # Formulario Herda UuserCreationForm que é um formulario próprio do Django pra criaçaõ de usuário.
@@ -78,3 +78,26 @@ class UpdateUserForm(UserChangeForm):
 		self.fields['username'].widget.attrs['placeholder'] = 'User Name'
 		self.fields['username'].label = ''
 		self.fields['username'].help_text = '<span class="form-text text-muted"><small>Obrigatório. 10 caracteres ou menos. Somente letras, dígitos e @/./+/-/_.</small></span>'
+
+
+class ChangePasswordForm(SetPasswordForm):
+    class Meta:
+        model = User
+        field =['new_password1', 'new_password2']
+
+
+    def __init__(self, *args, **kwargs):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+        self.fields['new_password1'].widget.attrs['class'] = 'form-control'
+        self.fields['new_password1'].widget.attrs['placeholder'] = 'Senha'
+        self.fields['new_password1'].label = ''
+        self.fields['new_password1'].help_text = '<span class="form-text text-muted"><small>Obrigatório. 10 caracteres ou menos. Somente letras, dígitos e @/./+/-/_.</small></span>'
+
+        self.fields['new_password2'].widget.attrs['class'] = 'form-control'
+        self.fields['new_password2'].widget.attrs['placeholder'] = 'Senha 2'
+        self.fields['new_password2'].label = ''
+        self.fields['new_password2'].help_text = '<span class="form-text text-muted"><small>Obrigatório. 10 caracteres ou menos. Somente letras, dígitos e @/./+/-/_.</small></span>'    
+
+
+
