@@ -1,5 +1,30 @@
 from django.db import models
 import datetime
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
+# Costumer Profile
+class Profile(models.Model):
+    # one profile one user 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_modified = models.DateTimeField(User, auto_now=True)
+    phone = models.CharField(max_length=30, blank=True)
+    address1 = models.CharField(max_length=100, blank=True)
+    address2 =models.CharField(max_length=100, blank=True)
+    city =models.CharField(max_length=30, blank=True)
+    state = models.CharField(max_length=30, blank=True)
+    contry = models.CharField(max_length=30, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+# Cria um Perfil de Usuário toda vez que um Usuário por criado. 
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        user_profile = Profile(user=instance)
+        user_profile.save()
+# 
+post_save.connect(create_profile, sender=User)        
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -44,7 +69,7 @@ class Order(models.Model):
     status = models.BooleanField(default=False)
 
 
-    def __str__():
+    def __str__(self):
         return self.product
         
 
